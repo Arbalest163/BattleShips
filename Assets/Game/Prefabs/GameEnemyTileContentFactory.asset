@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d1eb6e1eb464e44912762174a141ac, type: 3}
+  m_Name: GameEnemyTileContentFactory
+  m_EditorClassIdentifier: 
+  _singleDeckShipPrefab: {fileID: 7474421110687722104, guid: 86d9085b95a2c9745a20dfee02c6f293,
+    type: 3}
+  _twoDeckShipPrefab: {fileID: 1432456179209200471, guid: 4353a860c0ac1d74b854e70b5ce21a8d,
+    type: 3}
+  _threeDeckShipPrefab: {fileID: 2906507248883805735, guid: ce478968d3ab84548a31dbc077259ba2,
+    type: 3}
+  _fourDeckShipPrefab: {fileID: 5396729001098508223, guid: e890be5389ce1ae47a9488dd93b53a08,
+    type: 3}
+  _emptyPrefab: {fileID: 8874165529871794929, guid: 41b96162be35982469a31df7ed6a9ad4,
+    type: 3}
+  _explosionMissing: {fileID: -3679247564323306750, guid: 9db1c8b225d5ff046b047fadecd3857d,
+    type: 3}
+  _explosionShip: {fileID: -3679247564323306750, guid: ec033dcc340ba9e43a3925212f61694f,
+    type: 3}

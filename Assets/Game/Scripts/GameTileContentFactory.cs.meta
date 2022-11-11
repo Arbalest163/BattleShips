@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: c4d1eb6e1eb464e44912762174a141ac
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _singleDeckShipPrefab: {instanceID: 0}
+  - _twoDeckShipPrefab: {instanceID: 0}
+  - _threeDeckShipPrefab: {instanceID: 0}
+  - _fourDeckShipPrefab: {instanceID: 0}
+  - _emptyPrefab: {fileID: 8874165529871794929, guid: 41b96162be35982469a31df7ed6a9ad4,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
