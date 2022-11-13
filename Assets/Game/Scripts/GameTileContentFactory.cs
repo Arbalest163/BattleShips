@@ -30,6 +30,13 @@ public class GameTileContentFactory : GameObjectFactory
         };
     }
 
+    public GameTileContent GetExplosion(GameTile tile)
+    {
+        return tile.Content.Type == GameTileContentType.Empty
+             ? Get(GameTileContentType.ExplosionMissing)
+             : Get(GameTileContentType.ExplosionShip);
+    }
+
     private T Get<T>(T prefab) where T : GameTileContent
     {
         T instance = CreateGameObjectInstance(prefab);

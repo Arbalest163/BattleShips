@@ -357,7 +357,7 @@ public class GameBoard : MonoBehaviour
 
     public StatusShoot Shot(GameTile tile)
     {
-        var explosion = GetExplosion(tile);
+        var explosion = _contentFactory.GetExplosion(tile);
 
         if (tile.Content.Type == GameTileContentType.Empty)
         {
@@ -417,13 +417,6 @@ public class GameBoard : MonoBehaviour
                 || _tiles.Where(x => x.Content.Type > GameTileContentType.Empty && x.Content.Type < GameTileContentType.ExplosionMissing).Count() > 0;
     }
 
-    private GameTileContent GetExplosion(GameTile tile)
-    {
-        return tile.Content.Type == GameTileContentType.Empty
-             ? _contentFactory.Get(GameTileContentType.ExplosionMissing)
-             : _contentFactory.Get(GameTileContentType.ExplosionShip);
-    }
-
     public void FireAround(GameTile tile)
     {
         var ship = _ships.Where(x => x.PositionTiles.Contains(tile.LocalPosition)).FirstOrDefault();
@@ -450,7 +443,7 @@ public class GameBoard : MonoBehaviour
                 var shotTile = GetTile(checkCoordinates);
                 if(shotTile != null && shotTile.Content.Type == GameTileContentType.Empty)
                 {
-                    shotTile.Content = GetExplosion(shotTile);
+                    shotTile.Content = _contentFactory.GetExplosion(shotTile);
                 }
             }
         }

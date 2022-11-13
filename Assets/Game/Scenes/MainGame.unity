@@ -2830,6 +2830,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shooter
       objectReference: {fileID: 0}
+    - target: {fileID: 1283890167398736900, guid: 3f73c780e3bed004c9c64ed21ffbbba4,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283890167398736900, guid: 3f73c780e3bed004c9c64ed21ffbbba4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283890167398736900, guid: 3f73c780e3bed004c9c64ed21ffbbba4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564976137687781997, guid: 3f73c780e3bed004c9c64ed21ffbbba4,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3245340215794755739, guid: 3f73c780e3bed004c9c64ed21ffbbba4,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2838,6 +2858,11 @@ PrefabInstance:
     - target: {fileID: 3245340215794755739, guid: 3f73c780e3bed004c9c64ed21ffbbba4,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5640992975165821061, guid: 3f73c780e3bed004c9c64ed21ffbbba4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
