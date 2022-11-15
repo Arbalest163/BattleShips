@@ -2,7 +2,6 @@ using Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +24,8 @@ public class Shooter : MonoBehaviour
 
     private bool _isEnabled = false;
 
+    private Enemy _enemy;
+
     private List<Vector2Int> _enemysShootCoorinates;
     private Ray TouchRay => _camera.ScreenPointToRay(Input.mousePosition);
 
@@ -37,16 +38,19 @@ public class Shooter : MonoBehaviour
 
     private void Awake()
     {
-        _enemysShootCoorinates = new List<Vector2Int>(100);
+        var enemysShootCoorinates = new List<Vector2Int>(100);
         foreach (var i in 0..9)
         {
             foreach (var j in 0..9)
             {
-                _enemysShootCoorinates.Add(new Vector2Int(i, j));
+                enemysShootCoorinates.Add(new Vector2Int(i, j));
             }
         }
         _activate.onClick.AddListener(OnActivate);
         _positionMessages = _messages.transform.localPosition;
+
+        _enemy = new Enemy();
+        _enemy.Initialize(enemysShootCoorinates);
     }
 
     public void Disable()
@@ -76,32 +80,38 @@ public class Shooter : MonoBehaviour
     private IEnumerator ShootEnemy()
     {
         _inProcessEnemyShot = true;
-        if (_enemysShootCoorinates.Any())
+
+        var coordinates = _enemy.GetCoordinatesShot();
+        var tile = _playerGameBoard.GetTileByShot(coordinates);
+        if (tile == null)
         {
-            var coordinates = _enemysShootCoorinates.PickRandom();
-            var tile = _playerGameBoard.GetTileByShot(coordinates);
-            if (tile == null)
+            _enemy.RemoveCoordinates(coordinates);
+            yield return null;
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.2f);
+            var statusShot = _playerGameBoard.Shot(tile);
+            if (statusShot == StatusShoot.Missing)
             {
-                _enemysShootCoorinates.Remove(coordinates);
-                yield return null;
+                _enemy.NeedChangeDirection = true;
+                _isPlayerTurn = true;
+            }
+            else if (statusShot == StatusShoot.Killed)
+            {
+                _enemy.FinishingMode = false;
+                _playerGameBoard.FireAround(tile);
             }
             else
             {
-                yield return new WaitForSeconds(0.8f);
-                var statusShot = _playerGameBoard.Shot(tile);
-                if(statusShot == StatusShoot.Missing)
-                {
-                    _isPlayerTurn = true;
-                }
-                else if (statusShot == StatusShoot.Killed)
-                {
-                    _playerGameBoard.FireAround(tile);
-                    yield return new WaitForSeconds(0.8f);
-                }
-                ReportResult("Противник", statusShot, Color.red);
-                yield return new WaitForSeconds(0.8f);
+                _enemy.LastHitCoordinates = coordinates;
+                _enemy.FinishingMode = true;
+                _enemy.NeedChangeDirection = false;
             }
+            
+            ReportResult("Противник", statusShot, Color.red);
         }
+
         _inProcessEnemyShot = false;
     }
 
