@@ -83,12 +83,7 @@ public class Shooter : MonoBehaviour
 
         var coordinates = _enemy.GetCoordinatesShot();
         var tile = _playerGameBoard.GetTileByShot(coordinates);
-        if (tile == null)
-        {
-            _enemy.RemoveCoordinates(coordinates);
-            yield return null;
-        }
-        else
+        if (tile != null)
         {
             yield return new WaitForSeconds(1.2f);
             var statusShot = _playerGameBoard.Shot(tile);

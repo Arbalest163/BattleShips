@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy
 {
     private List<Vector2Int> _possibleCoordinatesShots;
+    private List<Vector2Int> _strategyCoordinatesShots;
     
     private Direction _directionShot;
 
@@ -20,6 +21,7 @@ public class Enemy
     {
         _possibleCoordinatesShots = possibleCoordinatesShots;
         _directionShot = ChooiseFiringDirection();
+        _strategyCoordinatesShots = new List<Vector2Int>();
     }
 
     public Vector2Int GetCoordinatesShot()
@@ -57,13 +59,45 @@ public class Enemy
             while (--changesDirection > 0);
         }
 
-        _firstShootCoordinates = _possibleCoordinatesShots.PickRandom();
+        _firstShootCoordinates = GetCoordinates();
         return _firstShootCoordinates;
     }
 
     public void RemoveCoordinates(Vector2Int coordinates)
     {
         _possibleCoordinatesShots.Remove(coordinates);
+    }
+
+    private Vector2Int GetCoordinates()
+    {
+        if (!_strategyCoordinatesShots.Any())
+        {
+            FillStrategyCoordinates();
+        }
+        if(_strategyCoordinatesShots.Any())
+        {
+            var coordinates = _strategyCoordinatesShots.PopRandom();
+            _possibleCoordinatesShots.Remove(coordinates);
+            return coordinates;
+        }
+        
+        return _possibleCoordinatesShots.PopRandom();
+    }
+
+    private void FillStrategyCoordinates()
+    {
+        _strategyCoordinatesShots.AddRange(_possibleCoordinatesShots.Where(c => c.x == c.y)); // главная диагональ
+        _strategyCoordinatesShots.AddRange(_possibleCoordinatesShots.Where(c => c.x + c.y == 9)); // побочная диагональ
+        if(_strategyCoordinatesShots.Any())
+        {
+            return;
+        }
+        _strategyCoordinatesShots.AddRange(_possibleCoordinatesShots.Where(c => c.x > c.y && c.x % 2 == 0)); // область над главной диагональю
+        if (_strategyCoordinatesShots.Any())
+        {
+            return;
+        }
+        _strategyCoordinatesShots.AddRange(_possibleCoordinatesShots.Where(c => c.x < c.y && c.y % 2 == 0)); // область под главной диагональю
     }
 
     private void ChangeDirectionToOpposite()
