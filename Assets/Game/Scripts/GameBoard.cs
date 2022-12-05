@@ -151,15 +151,10 @@ public class GameBoard : MonoBehaviour
     /// <returns>Тайл для выстрела или null</returns>
     public GameTile GetTileByShot(Vector2Int coordinates)
     {
-        if (!CheckOutOfBounds(coordinates))
-        {
-            var tile = _tiles[coordinates.x + coordinates.y * SizeX];
-            if(tile.Content.Type < GameTileContentType.ExplosionMissing)
-            {
-                return tile;
-            }
-        }
-        return null;
+        var tile = GetTile(coordinates);
+        return tile != null && tile.Content.Type < GameTileContentType.ExplosionMissing
+            ? tile 
+            : null;
     }
 
     /// <summary>
@@ -167,7 +162,6 @@ public class GameBoard : MonoBehaviour
     /// </summary>
     /// <param name="coordinates">Координаты</param>
     /// <returns>Тайл null</returns>
-
     public GameTile GetTile(Vector2Int coordinates)
     {
         if (!CheckOutOfBounds(coordinates))
