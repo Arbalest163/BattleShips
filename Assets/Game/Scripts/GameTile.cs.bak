@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public class GameTile : MonoBehaviour
     public Vector3 LocalPosition => transform.localPosition;
 
     /// <summary>
-    /// РљРѕРЅС‚РµРЅС‚, РЅР°С…РѕРґСЏС‰РёР№СЃСЏ РЅР° С‚Р°Р№Р»Рµ
+    /// Контент, находящийся на тайле
     /// </summary>
     public GameTileContent Content
     {

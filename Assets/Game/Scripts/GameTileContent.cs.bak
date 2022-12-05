@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,9 +26,9 @@ public class GameTileContent : MonoBehaviour
     protected GameTileContentFactory OriginFactory { get; private set; }
 
     /// <summary>
-    /// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
+    /// Инициализация
     /// </summary>
-    /// <param name="factory">Р¤Р°Р±СЂРёРєР° РєРѕРЅС‚РµРЅС‚Р°</param>
+    /// <param name="factory">Фабрика контента</param>
     public virtual void Initialize(GameTileContentFactory factory)
     {
         OriginFactory = factory;
@@ -36,7 +36,7 @@ public class GameTileContent : MonoBehaviour
     }
 
     /// <summary>
-    /// РЈРґР°Р»РµРЅРёРµ РѕР±СЉРµРєС‚Р°
+    /// Удаление объекта
     /// </summary>
     public void Recycle()
     {
@@ -55,7 +55,7 @@ public class GameTileContent : MonoBehaviour
     }
 
     /// <summary>
-    /// РР·РјРµРЅРµРЅРёРµ С†РІРµС‚Р° РѕР±СЉРµРєС‚Р°
+    /// Изменение цвета объекта
     /// </summary>
     /// <param name="avaliable"></param>
     public void SetTransparent(bool avaliable)
@@ -70,7 +70,7 @@ public class GameTileContent : MonoBehaviour
     }
 
     /// <summary>
-    /// РЈСЃС‚Р°РЅРѕРІРєР° РЅРѕСЂРјР°Р»СЊРЅРѕРіРѕ С†РІРµС‚Р° РёР· РєСЌС€Р°
+    /// Установка нормального цвета из кэша
     /// </summary>
     public void SetNormal()
     {
@@ -79,7 +79,7 @@ public class GameTileContent : MonoBehaviour
     }
 
     /// <summary>
-    /// РљСЌС€РёСЂРѕРІР°РЅРёРµ С†РІРµС‚РѕРІ
+    /// Кэширование цветов
     /// </summary>
     public void CasheColor()
     {

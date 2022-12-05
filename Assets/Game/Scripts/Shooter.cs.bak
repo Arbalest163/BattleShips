@@ -1,4 +1,4 @@
-п»їusing Extensions;
+using Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -107,7 +107,7 @@ public class Shooter : MonoBehaviour
                 _enemy.NeedChangeDirection = false;
             }
             
-            ReportResult("РџСЂРѕС‚РёРІРЅРёРє", statusShot, Color.red);
+            ReportResult("Противник", statusShot, Color.red);
         }
 
         _inProcessEnemyShot = false;
@@ -133,7 +133,7 @@ public class Shooter : MonoBehaviour
                         _enemyGameBoard.ShowShip(tile);
                         _enemyGameBoard.FireAround(tile);
                     }
-                    ReportResult("РРіСЂРѕРє", statusShot, Color.blue);
+                    ReportResult("Игрок", statusShot, Color.blue);
                 }
             }
         }
@@ -141,9 +141,9 @@ public class Shooter : MonoBehaviour
 
     private bool IsPointerDown()
     {
-        // Р”Р»СЏ РІРёРЅРґРѕСѓСЃ
+        // Для виндоус
         return Input.GetMouseButtonDown(0);
-        // Р”Р»СЏ РјРѕР±РёР»РѕРє
+        // Для мобилок
         //return Input.touches.Length == 0;
     }
 
@@ -165,11 +165,11 @@ public class Shooter : MonoBehaviour
         _isPlayerTurn = UnityEngine.Random.Range(0, 100) > 50;
         if(_isPlayerTurn)
         {
-            AddMessage("РџРµСЂРІС‹Рј С…РѕРґРёС‚ РёРіСЂРѕРє", Color.blue);
+            AddMessage("Первым ходит игрок", Color.blue);
         }
         else
         {
-            AddMessage("РџРµСЂРІС‹Рј С…РѕРґРёС‚ РїСЂРѕС‚РёРІРЅРёРє", Color.red);
+            AddMessage("Первым ходит противник", Color.red);
         }
     }
 
@@ -177,9 +177,9 @@ public class Shooter : MonoBehaviour
     {
         return statusShoot switch
         {
-            StatusShoot.Wounded => "Р Р°РЅРёР»",
-            StatusShoot.Killed => "РЈР±РёР»",
-            _ => "РњРёРјРѕ"
+            StatusShoot.Wounded => "Ранил",
+            StatusShoot.Killed => "Убил",
+            _ => "Мимо"
         };
     }
 
