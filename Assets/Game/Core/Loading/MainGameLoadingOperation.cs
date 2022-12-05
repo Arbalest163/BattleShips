@@ -10,23 +10,15 @@ namespace Loading
     {
         public string Description => "Загрузка игры...";
 
-        private readonly ICleanUp _gameCleanUp;
         private readonly BoardData _boardData;
 
-        public MainGameLoadingOperation(ICleanUp gameCleanUp, BoardData boardData)
+        public MainGameLoadingOperation(BoardData boardData)
         {
-            _gameCleanUp = gameCleanUp;
             _boardData = boardData;
         }
         public async UniTask Load(Action<float> onProgress)
         {
             onProgress?.Invoke(0.2f);
-            //foreach (var factory in _gameCleanUp.Factories)
-            //{
-            //    await factory.Unload();
-            //}
-            
-
             var loadOp = SceneManager.LoadSceneAsync(Constants.Scenes.MAIN_GAME,
                 LoadSceneMode.Single);
             while (loadOp.isDone == false)

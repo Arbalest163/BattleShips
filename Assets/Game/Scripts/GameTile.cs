@@ -8,6 +8,9 @@ public class GameTile : MonoBehaviour
 
     public Vector3 LocalPosition => transform.localPosition;
 
+    /// <summary>
+    /// Контент, находящийся на тайле
+    /// </summary>
     public GameTileContent Content
     {
         get => _content;

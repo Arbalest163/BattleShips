@@ -1983,7 +1983,7 @@ MonoBehaviour:
   _enemyBoard: {fileID: 1799107983}
   _tilesBuilder: {fileID: 1468313521}
   _shooter: {fileID: 1594440420}
-  _defenderHud: {fileID: 347725232}
+  _hud: {fileID: 347725232}
   _gameResultWindow: {fileID: 720171124}
   _camera: {fileID: 330585545}
   _mainContentFactory: {fileID: 11400000, guid: a1bd1697a1b17d24597afa3d35d33323,

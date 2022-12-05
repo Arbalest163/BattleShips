@@ -11,12 +11,26 @@ public class Enemy
     private Direction _directionShot;
 
     private Vector2Int _firstShootCoordinates;
+
+    /// <summary>
+    /// Координаты последнего выстрела
+    /// </summary>
     public Vector2Int LastHitCoordinates;
 
+    /// <summary>
+    /// Режим добивания
+    /// </summary>
     public bool FinishingMode { get; set; }
 
+    /// <summary>
+    /// Необходимость смены направления выстрелов
+    /// </summary>
     public bool NeedChangeDirection { get; set; } = true;
 
+    /// <summary>
+    /// Инициализация
+    /// </summary>
+    /// <param name="possibleCoordinatesShots">Возможные координаты для встрелов</param>
     public void Initialize(List<Vector2Int> possibleCoordinatesShots)
     {
         _possibleCoordinatesShots = possibleCoordinatesShots;
@@ -24,6 +38,10 @@ public class Enemy
         _strategyCoordinatesShots = new List<Vector2Int>();
     }
 
+    /// <summary>
+    /// Получить координаты для выстрела
+    /// </summary>
+    /// <returns></returns>
     public Vector2Int GetCoordinatesShot()
     {
         if (FinishingMode)
@@ -63,11 +81,6 @@ public class Enemy
         return _firstShootCoordinates;
     }
 
-    public void RemoveCoordinates(Vector2Int coordinates)
-    {
-        _possibleCoordinatesShots.Remove(coordinates);
-    }
-
     private Vector2Int GetCoordinates()
     {
         if (!_strategyCoordinatesShots.Any())
@@ -84,7 +97,7 @@ public class Enemy
         return _possibleCoordinatesShots.PopRandom();
     }
 
-    private void FillStrategyCoordinates()
+    private void FillStrategyCoordinates() //TODO Подумать над рефакторингом, созданием разных стратегий
     {
         _strategyCoordinatesShots.AddRange(_possibleCoordinatesShots.Where(c => c.x == c.y)); // главная диагональ
         _strategyCoordinatesShots.AddRange(_possibleCoordinatesShots.Where(c => c.x + c.y == 9)); // побочная диагональ
@@ -129,10 +142,18 @@ public class Enemy
     {
         return _directionShot switch
         {
-            Direction.East => _possibleCoordinatesShots.Where(coord => coord.x == LastHitCoordinates.x + 1 && coord.y == LastHitCoordinates.y).FirstOrDefault(),
-            Direction.South => _possibleCoordinatesShots.Where(coord => coord.y == LastHitCoordinates.y - 1 && coord.x == LastHitCoordinates.x).FirstOrDefault(),
-            Direction.West => _possibleCoordinatesShots.Where(coord => coord.x == LastHitCoordinates.x - 1 && coord.y == LastHitCoordinates.y).FirstOrDefault(),
-            Direction.North => _possibleCoordinatesShots.Where(coord => coord.y == LastHitCoordinates.y + 1 && coord.x == LastHitCoordinates.x).FirstOrDefault(),
+            Direction.East => _possibleCoordinatesShots
+                                .Where(coord => coord.x == LastHitCoordinates.x + 1 && coord.y == LastHitCoordinates.y)
+                                .FirstOrDefault(),
+            Direction.South => _possibleCoordinatesShots
+                                .Where(coord => coord.y == LastHitCoordinates.y - 1 && coord.x == LastHitCoordinates.x)
+                                .FirstOrDefault(),
+            Direction.West => _possibleCoordinatesShots
+                                .Where(coord => coord.x == LastHitCoordinates.x - 1 && coord.y == LastHitCoordinates.y)
+                                .FirstOrDefault(),
+            Direction.North => _possibleCoordinatesShots
+                                .Where(coord => coord.y == LastHitCoordinates.y + 1 && coord.x == LastHitCoordinates.x)
+                                .FirstOrDefault(),
             _ => default
         };
     }

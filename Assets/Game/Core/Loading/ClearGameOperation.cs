@@ -1,7 +1,6 @@
 ﻿using System;
 using Common;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Loading
@@ -21,11 +20,7 @@ namespace Loading
         {
             onProgress?.Invoke(0.2f);
             _gameCleanUp.Cleanup();
-            //foreach (var factory in _gameCleanUp.Factories)
-            //{
-            //    await factory.Unload();
-            //}
-            onProgress?.Invoke(0.5f);
+            onProgress?.Invoke(0.6f);
 
             var loadOp = SceneManager.LoadSceneAsync(Constants.Scenes.MAIN_MENU, LoadSceneMode.Additive);
             while (loadOp.isDone == false)

@@ -19,42 +19,27 @@ public class PrepareTilesBuilder : TilesBuilder
     private Button _clearButton;
 
     private Camera _camera;
+
+    private GameTileContent _pendingTile;
+
     private Ray TouchRay => _camera.ScreenPointToRay(Input.mousePosition);
 
-    private void Awake()
-    {
-        _buttons.ForEach(b =>
-        {
-            b.AddListener(OnBuildingSelected);
-            b.AddListener(OnUpdateTextButtons);
-        });
-        _changeDirectionButton.AddListener(OnChangeDirectionBuilding);
-        _autoBuildingButton.onClick.AddListener(OnAutoBuilding);
-        _clearButton.onClick.AddListener(OnClear);
-    }
-
-    private void Update()
-    {
-        if (_isEnabled == false)
-        {
-            return;
-        }
-        if (_pendingTile == null)
-        {
-            ProcessDestroying();
-        }
-        else
-        {
-            ProcessBuilding();
-        }
-    }
-
+    /// <summary>
+    /// Инициализация
+    /// </summary>
+    /// <param name="contentFactory">Фабоика контента</param>
+    /// <param name="camera">Камера</param>
+    /// <param name="gameBoard">Игровое поле</param>
     public void Initialize(GameTileContentFactory contentFactory, Camera camera, GameBoard gameBoard)
     {
         base.Initialize(contentFactory, gameBoard);
         _camera = camera;
     }
 
+    /// <summary>
+    /// Проверить заполненность поля
+    /// </summary>
+    /// <returns></returns>
     public bool CheckFull()
     {
         foreach(var i in 1..4)
@@ -115,7 +100,7 @@ public class PrepareTilesBuilder : TilesBuilder
             }
             else
             {
-                Destroy(_pendingTile.gameObject);
+                _pendingTile.Recycle();
             }
             _pendingTile = null;
         }
@@ -139,6 +124,34 @@ public class PrepareTilesBuilder : TilesBuilder
         return Input.GetMouseButtonUp(0);
         // Для мобилок
         //return Input.touches.Length == 0;
+    }
+
+    private void Awake()
+    {
+        _buttons.ForEach(b =>
+        {
+            b.AddListener(OnBuildingSelected);
+            b.AddListener(OnUpdateTextButtons);
+        });
+        _changeDirectionButton.AddListener(OnChangeDirectionBuilding);
+        _autoBuildingButton.onClick.AddListener(OnAutoBuilding);
+        _clearButton.onClick.AddListener(OnClear);
+    }
+
+    private void Update()
+    {
+        if (_isEnabled == false)
+        {
+            return;
+        }
+        if (_pendingTile == null)
+        {
+            ProcessDestroying();
+        }
+        else
+        {
+            ProcessBuilding();
+        }
     }
 }
 

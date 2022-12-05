@@ -12,25 +12,36 @@ public class GameTileContent : MonoBehaviour
 
     [SerializeField]
     private GameTileContentType _type;
+
     public Direction Direction { get; set; }
+
     public Vector3 PositionHead => transform.localPosition;
+
     public GameTileContentType Type => _type;
+
     public virtual int Size => (int)_type;
+
     public List<Vector3> PositionTiles { get; private set; }
 
     protected GameTileContentFactory OriginFactory { get; private set; }
 
+    /// <summary>
+    /// Инициализация
+    /// </summary>
+    /// <param name="factory">Фабрика контента</param>
     public virtual void Initialize(GameTileContentFactory factory)
     {
         OriginFactory = factory;
         PositionTiles = new List<Vector3>(Size);
     }
+
+    /// <summary>
+    /// Удаление объекта
+    /// </summary>
     public void Recycle()
     {
         OriginFactory.Reclaim(this);
     }
-
-    public virtual void GameUpdate() { }
 
     public override bool Equals(object obj)
     {
@@ -43,6 +54,10 @@ public class GameTileContent : MonoBehaviour
         return PositionHead.GetHashCode();
     }
 
+    /// <summary>
+    /// Изменение цвета объекта
+    /// </summary>
+    /// <param name="avaliable"></param>
     public void SetTransparent(bool avaliable)
     {
         foreach (var renderer in _renderers)
@@ -54,15 +69,20 @@ public class GameTileContent : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Установка нормального цвета из кэша
+    /// </summary>
     public void SetNormal()
     {
         for (var i = 0; i < _renderers.Length; i++)
             _renderers[i].material.color = _colors[i];
     }
 
+    /// <summary>
+    /// Кэширование цветов
+    /// </summary>
     public void CasheColor()
     {
-
         for (var i = 0; i < _renderers.Length; i++)
             _colors[i] = _renderers[i].material.color;
     }

@@ -10,23 +10,26 @@ public class Shooter : MonoBehaviour
 {
     [SerializeField]
     private Transform _scrollViewContent;
+
     [SerializeField]
     private TextMeshProUGUI _messages;
+
     private Vector3 _positionMessages;
 
     private Camera _camera;
+
     private GameBoard _playerGameBoard;
     private GameBoard _enemyGameBoard;
-    [SerializeField] private Button _activate;
+
+    [SerializeField] 
+    private Button _activate;
 
     private bool _isPlayerTurn;
     private bool _inProcessEnemyShot;
-
     private bool _isEnabled = false;
 
     private Enemy _enemy;
 
-    private List<Vector2Int> _enemysShootCoorinates;
     private Ray TouchRay => _camera.ScreenPointToRay(Input.mousePosition);
 
     public void Initialize(Camera camera, GameBoard playerGameBoard, GameBoard enemyGameBoard)
@@ -38,7 +41,7 @@ public class Shooter : MonoBehaviour
 
     private void Awake()
     {
-        var enemysShootCoorinates = new List<Vector2Int>(100);
+        var enemysShootCoorinates = new List<Vector2Int>(_playerGameBoard.SizeX * _playerGameBoard.SizeY);
         foreach (var i in 0..9)
         {
             foreach (var j in 0..9)

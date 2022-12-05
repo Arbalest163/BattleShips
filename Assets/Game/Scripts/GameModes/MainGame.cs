@@ -8,8 +8,6 @@ using GameResult;
 
 public class MainGame : MonoBehaviour, ICleanUp
 {
-    private Vector2Int _boardSize = new Vector2Int(10, 10);
-
     [SerializeField] private GameBoard _mainBoard;
     [SerializeField] private GameBoard _enemyBoard;
 
@@ -17,7 +15,7 @@ public class MainGame : MonoBehaviour, ICleanUp
 
     [SerializeField] private Shooter _shooter;
 
-    [SerializeField] private Hud _defenderHud;
+    [SerializeField] private Hud _hud;
 
     [SerializeField] private GameResultWindow _gameResultWindow;
 
@@ -30,19 +28,16 @@ public class MainGame : MonoBehaviour, ICleanUp
     [SerializeField] private GameTileContentFactory _mainContentFactory;
     [SerializeField] private GameTileContentFactory _enemyContentFactory;
 
-    private static MainGame _instance;
     public string SceneName => Constants.Scenes.MAIN_GAME;
-    public IEnumerable<GameObjectFactory> Factories => new GameObjectFactory[] { _mainContentFactory, _enemyContentFactory };
     private void OnEnable()
     {
-        _instance = this;
         _gameInProcess = true;
     }
 
     public void Init(SceneInstance environment, BoardData boardData)
     {
         _environment = environment;
-        _defenderHud.QuitGame += GoToMainMenu;
+        _hud.QuitGame += GoToMainMenu;
         _mainBoard.Initialize(_mainContentFactory, 7f);
         _mainBoard.LoadBoardData(boardData);
         _enemyBoard.Initialize(_enemyContentFactory, -7f);
@@ -55,7 +50,6 @@ public class MainGame : MonoBehaviour, ICleanUp
 
     public void Cleanup()
     {
-        _tilesBuilder.Disable();
         _mainBoard.Clear();
         _enemyBoard.Clear();
     }
@@ -94,12 +88,12 @@ public class MainGame : MonoBehaviour, ICleanUp
     private bool CheckEndGame(out GameResultType? result)
     {
         result = null;
-        if (!_instance._mainBoard.CheckForShips())
+        if (!_mainBoard.CheckForShips())
         {
             result = GameResultType.Defeat;
             return true;
         }
-        if (!_instance._enemyBoard.CheckForShips())
+        if (!_enemyBoard.CheckForShips())
         {
             result = GameResultType.Victory;
             return true;

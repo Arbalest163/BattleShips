@@ -5,49 +5,58 @@ using UnityEngine;
 
 public class TilesBuilder : MonoBehaviour
 {
-    public Direction DirectionBuilding { get; private set; }
-
     protected GameTileContentFactory _contentFactory;
     
     protected GameBoard _gameBoard;
 
     protected bool _isEnabled;
 
-    protected GameTileContent _pendingTile;
+    /// <summary>
+    /// Направление строительства
+    /// </summary>
+    public Direction DirectionBuilding { get; private set; }
 
+    /// <summary>
+    /// Инициализация
+    /// </summary>
+    /// <param name="contentFactory">Фабрика контента</param>
+    /// <param name="gameBoard">Игровое поле</param>
     public void Initialize(GameTileContentFactory contentFactory, GameBoard gameBoard)
     {
         _contentFactory = contentFactory;
         _gameBoard = gameBoard;
     }
+
+    /// <summary>
+    /// Очистка поля
+    /// </summary>
+    public void OnClear()
+    {
+        _gameBoard.Clear();
+    }
+
+    /// <summary>
+    /// Активация строителя
+    /// </summary>
     public void Enable()
     {
         _isEnabled = true;
         gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Деактивация строителя
+    /// </summary>
     public void Disable()
     {
         _isEnabled = false;
         gameObject.SetActive(false);
     }
 
-    protected int GetQuantityLimit(GameTileContentType type)
-    {
-        return type switch
-        {
-            GameTileContentType.SingleDeckShip => 4,
-            GameTileContentType.TwoDeckShip => 3,
-            GameTileContentType.ThreeDeckShip => 2,
-            GameTileContentType.FourDeckShip => 1,
-            _ => 0
-        };
-    }
-    protected void OnChangeDirectionBuilding()
-    {
-        DirectionBuilding = DirectionBuilding.ChangeDirection();
-    }
-
+    /// <summary>
+    /// Автоматическое заполнение поля
+    /// </summary>
+    /// <exception cref="System.Exception"></exception>
     public void OnAutoBuilding()
     {
         bool success = true;
@@ -82,33 +91,54 @@ public class TilesBuilder : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Получение лимитов на строительтво корабля по типу
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    protected int GetQuantityLimit(GameTileContentType type)
+    {
+        return type switch
+        {
+            GameTileContentType.SingleDeckShip => 4,
+            GameTileContentType.TwoDeckShip => 3,
+            GameTileContentType.ThreeDeckShip => 2,
+            GameTileContentType.FourDeckShip => 1,
+            _ => 0
+        };
+    }
+
+    /// <summary>
+    /// Смена направления строительства
+    /// </summary>
+    protected void OnChangeDirectionBuilding()
+    {
+        DirectionBuilding = DirectionBuilding.ChangeDirection();
+    }
+
     private bool BuildShips(ref List<Vector2Int> boardCoordinates, GameTileContentType type)
     {
         bool avaliable;
         var countAttemptsBuilding = 30;
+        var pendingTile = _contentFactory.Get(type);
         do
         {
-            var countChangeDirection = type == GameTileContentType.SingleDeckShip ? 1 : 4;
+            var countChangeDirection = GetCountChangeDirectionByType(type);
             var coordinates = boardCoordinates.PickRandom();
             do
             {
                 OnChangeDirectionBuilding();
-                _pendingTile = _contentFactory.Get(type);
-                _pendingTile.Direction = DirectionBuilding;
-                _pendingTile.transform.localRotation = DirectionBuilding.GetRotation();
+                pendingTile.Direction = DirectionBuilding;
+                pendingTile.transform.localRotation = DirectionBuilding.GetRotation();
 
-                avaliable = _gameBoard.CheckPossibilityBuilding(coordinates, _pendingTile);
+                avaliable = _gameBoard.CheckPossibilityBuilding(coordinates, pendingTile);
                 if (avaliable)
                 {
-                    var tiles = _gameBoard.GetTiles(coordinates, _pendingTile).ToArray();
-                    _gameBoard.Build(tiles, _pendingTile);
-                    boardCoordinates.Remove(coordinates);
+                    var tiles = _gameBoard.GetTiles(coordinates, pendingTile).ToArray();
+                    _gameBoard.Build(tiles, pendingTile);
+                    var removeCordinates = _gameBoard.GetCoordinatesAroundContent(pendingTile);
+                    boardCoordinates.RemoveAll(c => removeCordinates.Contains(c));
                 }
-                else
-                {
-                    Destroy(_pendingTile.gameObject);
-                }
-                _pendingTile = null;
             }
             while (!avaliable && --countChangeDirection > 0);
         }
@@ -116,13 +146,12 @@ public class TilesBuilder : MonoBehaviour
 
         if (!avaliable)
         {
+            pendingTile.Recycle();
             return false;
         }
         return true;
     }
 
-    public void OnClear()
-    {
-        _gameBoard.Clear();
-    }
+    private int GetCountChangeDirectionByType(GameTileContentType type)
+        => type == GameTileContentType.SingleDeckShip ? 1 : 4;
 }
