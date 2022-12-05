@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,19 +21,19 @@ public class GameBoard : MonoBehaviour
     private float _offsetBoard;
 
     /// <summary>
-    /// Р Р°Р·РјРµСЂ РїРѕР»СЏ РїРѕ РіРѕСЂРёР·РѕРЅР°С‚Р»Рё
+    /// Размер поля по горизонатли
     /// </summary>
     public byte SizeX => SIZE;
     /// <summary>
-    /// Р Р°Р·РјРµСЂ РїРѕР»СЏ РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+    /// Размер поля по вертикали
     /// </summary>
     public byte SizeY => SIZE;
 
     /// <summary>
-    /// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ
+    /// Инициализация игрового поля
     /// </summary>
-    /// <param name="contentFactory">Р¤Р°Р±СЂРёРєР° РєРѕРЅС‚РµРЅС‚Р°</param>
-    /// <param name="offsetBoard">РЎРјРµС‰РµРЅРёРµ РїРѕР»СЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С†РµРЅС‚СЂР° СЌРєСЂР°РЅР°</param>
+    /// <param name="contentFactory">Фабрика контента</param>
+    /// <param name="offsetBoard">Смещение поля относительно центра экрана</param>
     public void Initialize(GameTileContentFactory contentFactory, float offsetBoard = 0f)
     {
         _offsetBoard = offsetBoard;
@@ -54,10 +54,10 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕСЃС‚СЂРѕРёС‚СЊ РєРѕРЅС‚РµРЅС‚
+    /// Построить контент
     /// </summary>
-    /// <param name="tiles">РўР°Р№Р»С‹, РЅР° РєРѕС‚РѕСЂС‹С… РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕРёР·РІРµСЃС‚Рё СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІРѕ</param>
-    /// <param name="content">РљРѕРЅС‚РµРЅС‚</param>
+    /// <param name="tiles">Тайлы, на которых необходимо произвести строительство</param>
+    /// <param name="content">Контент</param>
     public void Build(GameTile[] tiles, GameTileContent content)
     {
         for (int i = tiles.Length - 1; i >= 0; i--)
@@ -73,7 +73,7 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РЈРґР°Р»РµРЅРёРµ РєРѕРЅС‚РµРЅС‚Р° РЅР° С‚Р°Р№Р»Р°С…
+    /// Удаление контента на тайлах
     /// </summary>
     /// <param name="tiles"></param>
     public void DestroyTiles(GameTile[] tiles)
@@ -87,11 +87,11 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ С‚Р°Р№Р»РѕРІ РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РёР· Р»СѓС‡Р°
+    /// Получение тайлов по координатам из луча
     /// </summary>
-    /// <param name="ray">Р›СѓС‡</param>
-    /// <param name="content">РљРѕРЅС‚РµРЅС‚, РґР»СЏ РєРѕС‚РѕСЂРѕРіРѕ РЅРµРѕР±С…РѕРґРёРјРѕ РїРѕР»СѓС‡РёС‚СЊ С‚Р°Р№Р»С‹</param>
-    /// <returns>РљРѕР»Р»РµРєС†РёСЏ С‚Р°Р№Р»РѕРІ</returns>
+    /// <param name="ray">Луч</param>
+    /// <param name="content">Контент, для которого необходимо получить тайлы</param>
+    /// <returns>Коллекция тайлов</returns>
     public IEnumerable<GameTile> GetTiles(Ray ray, GameTileContent content)
     {
         var coordinates = ConvertToFiledCoordinates(ray);
@@ -99,11 +99,11 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ С‚Р°Р№Р»РѕРІ РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј
+    /// Получение тайлов по координатам
     /// </summary>
-    /// <param name="coordinates">РљРѕРѕСЂРґРёРЅР°С‚С‹ РЅР°С‡Р°Р»Р° РїРѕР»СѓС‡РµРЅРёСЏ С‚Р°Р№Р»РѕРІ</param>
-    /// <param name="content">РљРѕРЅС‚РµРЅС‚, РґР»СЏ РєРѕС‚РѕСЂРѕРіРѕ РЅРµРѕР±С…РѕРґРёРјРѕ РїРѕР»СѓС‡РёС‚СЊ С‚Р°Р№Р»С‹</param>
-    /// <returns>РљРѕР»Р»РµРєС†РёСЏ С‚Р°Р№Р»РѕРІ</returns>
+    /// <param name="coordinates">Координаты начала получения тайлов</param>
+    /// <param name="content">Контент, для которого необходимо получить тайлы</param>
+    /// <returns>Коллекция тайлов</returns>
     public IEnumerable<GameTile> GetTiles(Vector2Int coordinates, GameTileContent content)
     {
         if (!CheckOutOfBounds(coordinates, content.Size, content.Direction))
@@ -134,10 +134,10 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ С‚Р°Р№Р»Р° РґР»СЏ РІС‹СЃС‚СЂРµР»Р° РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РёР· Р»СѓС‡Р°
+    /// Получение тайла для выстрела по координатам из луча
     /// </summary>
-    /// <param name="ray">Р›СѓС‡</param>
-    /// <returns>РўР°Р№Р» РґР»СЏ РІС‹СЃС‚СЂРµР»Р° РёР»Рё null</returns>
+    /// <param name="ray">Луч</param>
+    /// <returns>Тайл для выстрела или null</returns>
     public GameTile GetTileByShot(Ray ray)
     {
         var coordinates = ConvertToFiledCoordinates(ray);
@@ -145,10 +145,10 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ С‚Р°Р№Р»Р° РґР»СЏ РІС‹СЃС‚СЂРµР»Р° РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј
+    /// Получение тайла для выстрела по координатам
     /// </summary>
-    /// <param name="coordinates">РљРѕРѕСЂРґРёРЅР°С‚С‹</param>
-    /// <returns>РўР°Р№Р» РґР»СЏ РІС‹СЃС‚СЂРµР»Р° РёР»Рё null</returns>
+    /// <param name="coordinates">Координаты</param>
+    /// <returns>Тайл для выстрела или null</returns>
     public GameTile GetTileByShot(Vector2Int coordinates)
     {
         if (!CheckOutOfBounds(coordinates))
@@ -163,10 +163,10 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ С‚Р°Р№Р»Р° РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј
+    /// Получение тайла по координатам
     /// </summary>
-    /// <param name="coordinates">РљРѕРѕСЂРґРёРЅР°С‚С‹</param>
-    /// <returns>РўР°Р№Р» null</returns>
+    /// <param name="coordinates">Координаты</param>
+    /// <returns>Тайл null</returns>
 
     public GameTile GetTile(Vector2Int coordinates)
     {
@@ -178,10 +178,10 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ С‚Р°Р№Р»РѕРІ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РєРѕРЅС‚РµРЅС‚Р° РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РёР· Р»СѓС‡Р°
+    /// Получение тайлов для удаления контента по координатам из луча
     /// </summary>
-    /// <param name="ray">Р›СѓС‡</param>
-    /// <returns>РљРѕР»РµРєС†РёСЏ С‚Р°Р№Р»РѕРІ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ, Р»РёР±Рѕ РїСѓСЃС‚Р°СЏ РєРѕР»Р»РµРєС†РёСЏ null</returns>
+    /// <param name="ray">Луч</param>
+    /// <returns>Колекция тайлов для удаления, либо пустая коллекция null</returns>
     public GameTile[] GetTilesByDestroy(Ray ray)
     {
         var coordinates = ConvertToFiledCoordinates(ray);
@@ -194,21 +194,21 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° РєРѕРЅС‚РµРЅС‚Р° РЅР° РїРѕР»Рµ РїРѕ С‚РёРїСѓ
+    /// Получение количества контента на поле по типу
     /// </summary>
-    /// <param name="type">РўРёРї РєРѕРЅС‚РµРЅС‚Р°</param>
-    /// <returns>РљРѕР»РёС‡РµСЃС‚РІРѕ РєРѕРЅС‚РµРЅС‚Р°, РѕРїСЂРµРґРµР»С‘РЅРЅРѕРіРѕ С‚РёРїР°</returns>
+    /// <param name="type">Тип контента</param>
+    /// <returns>Количество контента, определённого типа</returns>
     public int GetCountShips(GameTileContentType type)
     {
         return _ships.Where(x => x.Type == type).Count();
     }
 
     /// <summary>
-    /// РџСЂРѕРІРµСЂРєР° РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІР° РєРѕРЅС‚РµРЅС‚Р° РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РёР· Р»СѓС‡Р°
+    /// Проверка возможности строительства контента по координатам из луча
     /// </summary>
-    /// <param name="ray">Р›СѓС‡</param>
-    /// <param name="content">РљРѕРЅС‚РµРЅС‚</param>
-    /// <returns>true, РµСЃР»Рё РїРѕ РґР°РЅРЅС‹Рј РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РІРѕР·РјРѕР¶РЅРѕ РїРѕСЃС‚СЂРѕРёС‚СЊ РєРѕРЅС‚РµРЅС‚, РёРЅР°С‡Рµ false</returns>
+    /// <param name="ray">Луч</param>
+    /// <param name="content">Контент</param>
+    /// <returns>true, если по данным координатам возможно построить контент, иначе false</returns>
     public bool CheckPossibilityBuilding(Ray ray, GameTileContent content)
     {
         var coordinates = ConvertToFiledCoordinates(ray);
@@ -216,11 +216,11 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџСЂРѕРІРµСЂРєР° РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІР° РєРѕРЅС‚РµРЅС‚Р° РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј
+    /// Проверка возможности строительства контента по координатам
     /// </summary>
-    /// <param name="coordinates">Р›СѓС‡</param>
-    /// <param name="content">РљРѕРЅС‚РµРЅС‚</param>
-    /// <returns>true, РµСЃР»Рё РїРѕ РґР°РЅРЅС‹Рј РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РІРѕР·РјРѕР¶РЅРѕ РїРѕСЃС‚СЂРѕРёС‚СЊ РєРѕРЅС‚РµРЅС‚, РёРЅР°С‡Рµ false</returns>
+    /// <param name="coordinates">Луч</param>
+    /// <param name="content">Контент</param>
+    /// <returns>true, если по данным координатам возможно построить контент, иначе false</returns>
     public bool CheckPossibilityBuilding(Vector2Int coordinates, GameTileContent content)
     {
         var contentSize = content.Size;
@@ -258,7 +258,7 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РћС‡РёСЃС‚РєР° РїРѕР»СЏ
+    /// Очистка поля
     /// </summary>
     public void Clear()
     {
@@ -274,9 +274,9 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ РєРѕРЅС‚РµР№РЅРµСЂ, СЃРѕРґРµСЂР¶Р°С‰РёР№ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± РёРіСЂРѕРІРѕРј РїРѕР»Рµ
+    /// Сгенерировать контейнер, содержащий информацию об игровом поле
     /// </summary>
-    /// <returns>РРЅС„РѕСЂРјР°С†РёСЏ РѕР± РёРіСЂРѕРІРѕРј РїРѕР»Рµ</returns>
+    /// <returns>Информация об игровом поле</returns>
     public BoardData GenerateBordData()
     {
         var shipsData = new List<ShipData>();
@@ -302,7 +302,7 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// Р—Р°РіСЂСѓР·РёС‚СЊ РїРѕР»Рµ РёР· РєРѕРЅС‚РµР№РЅРµСЂР°
+    /// Загрузить поле из контейнера
     /// </summary>
     /// <param name="boardData"></param>
     public void LoadBoardData(BoardData boardData)
@@ -318,10 +318,10 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџСЂРѕРІРµСЂРёС‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїСЂРѕРёР·РІРµСЃС‚Рё РІС‹СЃС‚СЂРµР» РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј РёР· Р»СѓС‡Р°
+    /// Проверить возможность произвести выстрел по координатам из луча
     /// </summary>
-    /// <param name="ray">Р›СѓС‡</param>
-    /// <returns>true, РµСЃР»Рё РІС‹СЃС‚СЂРµР» РІРѕР·РјРѕР¶РµРЅ, РёРЅР°С‡Рµ false</returns>
+    /// <param name="ray">Луч</param>
+    /// <returns>true, если выстрел возможен, иначе false</returns>
     public bool CheckPosibilityShoot(Ray ray)
     {
         var coordinates = ConvertToFiledCoordinates(ray);
@@ -329,10 +329,10 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџСЂРѕРІРµСЂРёС‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїСЂРѕРёР·РІРµСЃС‚Рё РІС‹СЃС‚СЂРµР» РїРѕ РєРѕРѕСЂРґРёРЅР°С‚Р°Рј
+    /// Проверить возможность произвести выстрел по координатам
     /// </summary>
-    /// <param name="coordinates">РљРѕРѕСЂРґРёРЅР°С‚С‹</param>
-    /// <returns>true, РµСЃР»Рё РІС‹СЃС‚СЂРµР» РІРѕР·РјРѕР¶РµРЅ, РёРЅР°С‡Рµ false</returns>
+    /// <param name="coordinates">Координаты</param>
+    /// <returns>true, если выстрел возможен, иначе false</returns>
     public bool CheckPosibilityShoot(Vector2Int coordinates)
     {
         var available = !CheckOutOfBounds(coordinates);
@@ -344,14 +344,14 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџСЂРѕРёР·РІРµСЃС‚Рё РІС‹СЃС‚СЂРµР» РїРѕ С‚Р°Р№Р»Сѓ
+    /// Произвести выстрел по тайлу
     /// </summary>
-    /// <param name="tile">РўР°Р№Р», РїРѕ РєРѕС‚РѕСЂРѕРјСѓ РїСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РІС‹СЃС‚СЂРµР»</param>
+    /// <param name="tile">Тайл, по которому производится выстрел</param>
     /// <returns>
-    /// РЎС‚Р°С‚СѓСЃ РІС‹СЃС‚СЂРµР»Р°: <br/>
-    /// Missing - РјРёРјРѕ <br/>
-    /// Wounded - СЂР°РЅРёР» <br/> 
-    /// Killed - СѓР±РёР»
+    /// Статус выстрела: <br/>
+    /// Missing - мимо <br/>
+    /// Wounded - ранил <br/> 
+    /// Killed - убил
     /// </returns>
     public StatusShoot Shot(GameTile tile)
     {
@@ -375,7 +375,7 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РЎРєСЂС‹С‚СЊ РєРѕСЂР°Р±Р»Рё РЅР° РїРѕР»Рµ
+    /// Скрыть корабли на поле
     /// </summary>
     public void HideShips()
     {
@@ -386,7 +386,7 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РћС‚РєСЂС‹С‚СЊ РєРѕСЂР°Р±Р»Рё РЅР° РїРѕР»Рµ
+    /// Открыть корабли на поле
     /// </summary>
     public void ShowShips()
     {
@@ -397,9 +397,9 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РћС‚РєСЂС‹С‚СЊ РєРѕСЂР°Р±Р»СЊ, РЅР°С…РѕРґСЏС‰РёР№СЃСЏ РЅР° СѓРєР°Р·Р°РЅРЅРѕРј С‚Р°Р№Р»Рµ
+    /// Открыть корабль, находящийся на указанном тайле
     /// </summary>
-    /// <param name="tile">РўР°Р№Р»</param>
+    /// <param name="tile">Тайл</param>
     public void ShowShip(GameTile tile)
     {
         var ship = _ships.Where(x => x.PositionTiles.Contains(tile.LocalPosition)).FirstOrDefault();
@@ -407,9 +407,9 @@ public class GameBoard : MonoBehaviour
     }
     
     /// <summary>
-    /// РџСЂРѕРІРµСЂРёС‚СЊ РЅР°Р»РёС‡РёРµ "Р¶РёРІС‹С…" РєРѕСЂР°Р±Р»РµР№ РЅР° РїРѕР»Рµ
+    /// Проверить наличие "живых" кораблей на поле
     /// </summary>
-    /// <returns>true, РµСЃР»Рё "Р¶РёРІС‹Рµ" РєРѕСЂР°Р±Р»Рё РЅР° РїРѕР»Рµ РµСЃС‚СЊ, РёРЅР°С‡Рµ false</returns>
+    /// <returns>true, если "живые" корабли на поле есть, иначе false</returns>
     public bool CheckForShips()
     {
         return _tiles == null
@@ -419,19 +419,19 @@ public class GameBoard : MonoBehaviour
     }
 
     /// <summary>
-    /// РџРѕР»СѓС‡РµРЅРёРµ РІСЃРµС… РєРѕРѕСЂРґРёРЅР°С‚ РєРѕРЅС‚РµРЅС‚Р° Рё РІРѕРєСЂСѓРі РЅРµРіРѕ
+    /// Получение всех координат контента и вокруг него
     /// </summary>
-    /// <param name="content">РљРѕРЅС‚РµРЅС‚</param>
-    /// <returns>РљРѕР»Р»РµРєС†РёСЏ РєРѕРѕСЂРґРёРЅР°С‚</returns>
+    /// <param name="content">Контент</param>
+    /// <returns>Коллекция координат</returns>
     public Vector2Int[] GetCoordinatesAroundContent(GameTileContent content)
     {
         return GetTilesAround(content).Select(t => ConvertToFiledCoordinates(t.LocalPosition)).ToArray();
     }
 
     /// <summary>
-    /// РџСЂРѕРёР·РІРµСЃС‚Рё РѕР±СЃС‚СЂРµР» РІРѕРєСЂСѓРі РєРѕРЅС‚РµРЅС‚Р°, РЅР°С…РѕРґСЏС‰РµРіРѕСЃСЏ РЅР° РІС‹Р±СЂР°РЅРЅРѕРј С‚Р°Р№Р»Рµ
+    /// Произвести обстрел вокруг контента, находящегося на выбранном тайле
     /// </summary>
-    /// <param name="tile">РўР°Р№Р»</param>
+    /// <param name="tile">Тайл</param>
     public void FireAround(GameTile tile)
     {
         var ship = _ships.Where(x => x.PositionTiles.Contains(tile.LocalPosition)).FirstOrDefault();
@@ -477,22 +477,22 @@ public class GameBoard : MonoBehaviour
 
     private Vector2Int ConvertToFiledCoordinates(Vector3 coordinates)
     {
-        var x = AdjustРЎoordinates(coordinates.x + _offsetBoard + SizeX * 0.5f);
-        var y = AdjustРЎoordinates(coordinates.z + SizeY * 0.5f);
+        var x = AdjustСoordinates(coordinates.x + _offsetBoard + SizeX * 0.5f);
+        var y = AdjustСoordinates(coordinates.z + SizeY * 0.5f);
         return new Vector2Int(x, y);
     }
 
     /// <summary>
-    /// РњРµС‚РѕРґ РЅРµРѕР±С…РѕРґРёРј РґР»СЏ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ float Рє int СЃ РѕРїСЂРµРґРµР»С‘РЅРЅС‹Рј СЃРїРѕСЃРѕР±РѕРј РѕРєСЂСѓРіР»РµРЅРёСЏ.<br/>
-    /// РџРѕ СѓРјРѕР»С‡Р°РЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ РѕС‚ -1 РґРѕ 0 РѕРєСЂСѓРіР»СЏСЋС‚СЃСЏ РґРѕ РЅСѓР»СЏ, <br/>
-    /// РёР·-Р·Р° С‡РµРіРѕ РґР°РЅРЅС‹Рµ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рµ С‡РёСЃР»Р° Р±СѓРґСѓС‚ СЃС‡РёС‚Р°С‚СЊСЃСЏ РЅР°С…РѕРґСЏС‰РёРјРёСЃСЏ РІ РїСЂРµРґРµР»Р°С… РїРѕР»СЏ,<br/> 
-    /// С‡С‚Рѕ, РїРѕ С„Р°РєС‚Сѓ, РЅРµ С‚Р°Рє. РџРѕСЌС‚РѕРјСѓ РЅРµРѕР±С…РѕРґРёРјРѕ Р·РЅР°С‡РµРЅРёСЏ РјРµРЅСЊС€Рµ РЅСѓР»СЏ РѕРєСЂРіР»СЏС‚СЊ РґРѕ -1 РІСЂСѓС‡РЅСѓСЋ.
-    /// Р­С‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ С„РёРєСЃР°, РєРѕРіРґР° РёРіСЂРѕРє РЅР°Р¶РёРјР°РµС‚ Р»РµРІРµРµ/РЅРёР¶Рµ РїРѕР»СЏ <br/>
-    /// Рђ СЃС‚СЂРѕРёС‚РµР»СЊСЃРІС‚Рѕ/РІС‹СЃС‚СЂРµР» РїСЂРѕРёСЃС…РѕРґСЏС‚ РїРѕ РЅСѓР»РµРІРѕР№ РєРѕРѕСЂРґРёРЅР°С‚Рµ РЅР° РїРѕР»Рµ
+    /// Метод необходим для преобразования float к int с определённым способом округления.<br/>
+    /// По умолчания значения от -1 до 0 округляются до нуля, <br/>
+    /// из-за чего данные отрицательные числа будут считаться находящимися в пределах поля,<br/> 
+    /// что, по факту, не так. Поэтому необходимо значения меньше нуля окрглять до -1 вручную.
+    /// Это необходимо для фикса, когда игрок нажимает левее/ниже поля <br/>
+    /// А строительсвто/выстрел происходят по нулевой координате на поле
     /// </summary>
     /// <param name="num"></param>
     /// <returns></returns>
-    private int AdjustРЎoordinates(float num)
+    private int AdjustСoordinates(float num)
     {
         return num < 0 ? -1 : (int)num;
     }
